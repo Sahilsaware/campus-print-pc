@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <meta name="csrf-token" content="{{ csrf }}">
+    <title>Admin - Campus Print</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/admin.css">
+    <script src="/static/admin.js" defer></script>
+</head>
+<body>
+<div class="admin-container">
+    <header class="admin-head">
+        <div>
+            <h1>Campus Print Admin</h1>
+            <span class="pill" id="printer-pill">Checking printer&hellip;</span>
+            <span class="pill role">{{ role }}: {{ username }}</span>
+        </div>
+        <form method="post" action="/admin/logout">
+            <input type="hidden" name="csrf" value="{{ csrf }}">
+            <button class="btn secondary-btn" type="submit">Log out</button>
+        </form>
+    </header>
+
+    <section class="admin-block">
+        <div class="block-head">
+            <h2>Earnings</h2>
+            <label class="month-pick">Month
+                <input type="month" id="month">
+            </label>
+            <button class="btn secondary-btn small-btn" id="month-clear" type="button">All time</button>
+        </div>
+        <div class="stat-row">
+            <div class="stat"><span id="stat-prints">-</span><label>Prints done</label></div>
+            <div class="stat"><span id="stat-pages">-</span><label>Pages printed</label></div>
+            <div class="stat"><span id="stat-earnings">-</span><label>Earnings</label></div>
+        </div>
+    </section>
+
+    <section class="admin-block">
+        <h2>Queue &amp; failed jobs</h2>
+        <p class="info-text small">Retry sends the job to the printer again. Refund returns the money and deletes the file.</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Time</th><th>File</th><th>Details</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+                <tbody id="queue-body"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="admin-block">
+        <h2>History</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Time</th><th>File</th><th>Details</th><th>Amount</th><th>Status</th></tr></thead>
+                <tbody id="history-body"></tbody>
+            </table>
+        </div>
+    </section>
+
+    {% if is_super %}
+    <section class="admin-block">
+        <h2>Sub-admins</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Username</th><th>Created</th><th></th></tr></thead>
+                <tbody id="admins-body"></tbody>
+            </table>
+        </div>
+        <form id="admin-form" class="admin-form" onsubmit="return false">
+            <input type="text" id="new-username" placeholder="New username" autocomplete="off" maxlength="30">
+            <input type="password" id="new-password" placeholder="Password (8+ characters)" autocomplete="new-password">
+            <button class="btn small-btn" id="add-admin" type="button">Add sub-admin</button>
+        </form>
+    </section>
+    {% endif %}
+
+    <p class="status-msg" id="admin-msg" aria-live="polite"></p>
+</div>
+</body>
+</html>

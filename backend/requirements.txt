@@ -1,0 +1,6 @@
+flask
+flask-sock
+PyMuPDF
+requests
+python-dotenv
+gunicorn; sys_platform != "win32"

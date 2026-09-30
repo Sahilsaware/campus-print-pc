@@ -1,0 +1,12 @@
+# secrets and runtime data: never commit
+.env
+*.db
+*.db-wal
+*.db-shm
+uploads/
+agent_state.json
+agent.log*
+__pycache__/
+*.pyc
+SumatraPDF.exe
+*.save

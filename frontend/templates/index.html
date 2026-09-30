@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Print</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+    <script src="/static/app.js" defer></script>
+</head>
+<body>
+<div class="kiosk-container">
+    <div class="header-section">
+        <h1>Campus Print</h1>
+        <span id="printer-pill" class="pill">Checking printer…</span>
+    </div>
+
+    <div class="step-tracker">
+        <div class="step-node active"><span>1</span><label>Home</label></div>
+        <div class="step-line"></div>
+        <div class="step-node"><span>2</span><label>Upload</label></div>
+        <div class="step-line"></div>
+        <div class="step-node"><span>3</span><label>Settings</label></div>
+        <div class="step-line"></div>
+        <div class="step-node"><span>4</span><label>Payment</label></div>
+        <div class="step-line"></div>
+        <div class="step-node"><span>5</span><label>Print</label></div>
+    </div>
+
+    <div class="kiosk-card">
+        <!-- Step 1: Home -->
+        <section class="step-content active" id="step-1">
+            <div class="hero">
+                <svg viewBox="0 0 120 80" width="130" height="86" fill="none" aria-hidden="true">
+                    <rect x="30" y="8" width="60" height="26" rx="3" fill="#0f172a" stroke="#94a3b8" stroke-width="2"/>
+                    <rect x="12" y="30" width="96" height="34" rx="9" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
+                    <rect x="32" y="50" width="56" height="24" rx="3" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+                    <line x1="40" y1="58" x2="80" y2="58" stroke="#94a3b8" stroke-width="2"/>
+                    <line x1="40" y1="65" x2="68" y2="65" stroke="#94a3b8" stroke-width="2"/>
+                    <circle cx="94" cy="41" r="3" fill="#38bdf8"/>
+                </svg>
+            </div>
+            <h2 class="styled-heading">Welcome to Campus Print</h2>
+            <p class="info-text">Fast, secure, and easy document printing for students. No login needed.</p>
+            <div class="price-row">
+                <div class="price-box"><strong id="price-bw">₹2</strong><span>per page, black &amp; white</span></div>
+                <div class="price-box"><strong id="price-color">₹10</strong><span>per page, color</span></div>
+            </div>
+            <p class="info-text small">Supports PDF, JPG, PNG, Word, PowerPoint and Excel. Collect your prints from the printer tray.</p>
+            <div class="btn-row"><button class="btn" data-goto="2">Get Started &amp; Upload ➔</button></div>
+        </section>
+
+        <!-- Step 2: Upload -->
+        <section class="step-content" id="step-2">
+            <h2 class="styled-heading">📁 Upload Document</h2>
+            <label class="drop-zone" id="drop-zone" for="file-input">
+                <div class="drop-zone-icon" id="drop-icon">☁️</div>
+                <div class="drop-zone-title" id="drop-title">Drag &amp; Drop a file here or <span class="link">Browse</span></div>
+                <div class="drop-zone-desc" id="drop-desc">PDF, JPG, PNG, Word, PowerPoint, Excel · Max 100MB</div>
+            </label>
+            <input type="file" id="file-input" hidden
+                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.ppt,.pptx,.xls,.xlsx">
+            <div class="progress" id="upload-progress" hidden><div class="progress-bar" id="upload-bar"></div></div>
+            <p class="status-msg" id="upload-status" aria-live="polite"></p>
+            <div class="btn-row">
+                <button class="btn secondary-btn" data-goto="1">Back</button>
+                <button class="btn" id="to-settings" disabled>Next</button>
+            </div>
+        </section>
+
+        <!-- Step 3: Settings -->
+        <section class="step-content" id="step-3">
+            <h2 class="styled-heading">⚙️ Print Settings</h2>
+            <form id="settings-form" onsubmit="return false">
+                <div class="form-group">
+                    <label for="color-mode">Color Mode</label>
+                    <select id="color-mode"></select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="paper-size">Paper Size</label>
+                        <select id="paper-size">
+                            <option value="A4">A4</option>
+                            <option value="A3">A3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="orientation">Orientation</label>
+                        <select id="orientation">
+                            <option value="portrait">Portrait</option>
+                            <option value="landscape">Landscape</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pages-per-sheet">Pages per Sheet</label>
+                        <select id="pages-per-sheet"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fit">Scaling / Fit</label>
+                        <select id="fit">
+                            <option value="fit">Fit (scale to page)</option>
+                            <option value="actual">Actual size (100%)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="duplex">Sides</label>
+                    <select id="duplex">
+                        <option value="0">Print on 1 side</option>
+                        <option value="1">Print on both sides (duplex)</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="copies">Copies</label>
+                        <input type="number" id="copies" min="1" value="1" inputmode="numeric">
+                    </div>
+                    <div class="form-group">
+                        <label for="page-range">Page Range</label>
+                        <input type="text" id="page-range" placeholder="All pages, or e.g. 1-5, 8" autocomplete="off">
+                    </div>
+                </div>
+            </form>
+            <div class="estimate" id="estimate" aria-live="polite"></div>
+            <button class="btn outline-btn" id="preview-btn" type="button">👁️ Preview Final Print Layout</button>
+            <div class="btn-row">
+                <button class="btn secondary-btn" data-goto="2">Back</button>
+                <button class="btn" id="to-payment">Next</button>
+            </div>
+        </section>
+
+        <!-- Step 4: Payment -->
+        <section class="step-content" id="step-4">
+            <h2 class="styled-heading">💳 Order Summary &amp; Payment</h2>
+            <div class="summary-box">
+                <div class="summary-row"><span>File</span><span id="sum-file" class="truncate"></span></div>
+                <div class="summary-row"><span>Total pages in file</span><span id="sum-pages"></span></div>
+                <div class="summary-row"><span>Selected pages to print</span><span id="sum-selected"></span></div>
+                <div class="summary-row"><span>Printed sides per copy</span><span id="sum-sheets"></span></div>
+                <div class="summary-row"><span>Copies</span><span id="sum-copies"></span></div>
+                <div class="summary-row total-price"><span>Total Amount</span><span id="sum-total"></span></div>
+            </div>
+            <p class="notice" id="test-note" hidden>Test mode: no real payment is taken.</p>
+            <p class="notice warn" id="printer-warning" hidden>The printer is offline right now. You can pay once it is back.</p>
+            <div class="btn-row">
+                <button class="btn secondary-btn" data-goto="3">Back</button>
+                <button class="btn" id="pay-btn">Proceed to Payment</button>
+            </div>
+        </section>
+
+        <!-- Step 5: Print status -->
+        <section class="step-content" id="step-5">
+            <h2 class="styled-heading">🖨️ Print Status</h2>
+            <div class="printing-loader">
+                <div class="spinner" id="job-spinner"></div>
+                <div class="job-title" id="job-title">In queue</div>
+                <p class="status-msg" id="job-detail">Your document is waiting for the printer.</p>
+                <p class="job-id">Job ID: <span id="job-id"></span></p>
+            </div>
+            <div class="btn-row"><button class="btn" id="reset-btn" hidden>Print Another File</button></div>
+        </section>
+    </div>
+
+    <p class="footer"><a href="/privacy">Privacy Policy &amp; Data Security</a></p>
+</div>
+
+<!-- Alert -->
+<div class="modal" id="alert-modal" role="alertdialog" aria-modal="true">
+    <div class="modal-box small">
+        <div class="alert-icon" id="alert-icon">⚠️</div>
+        <h3 id="alert-title"></h3>
+        <p id="alert-message" class="info-text"></p>
+        <button class="btn" id="alert-close">Got It, Thanks</button>
+    </div>
+</div>
+
+<!-- Preview -->
+<div class="modal" id="preview-modal" role="dialog" aria-modal="true">
+    <div class="modal-box wide">
+        <div class="modal-head">
+            <div>
+                <h3>📄 Document Preview</h3>
+                <div class="info-text small truncate" id="preview-file"></div>
+                <div class="info-text small" id="preview-sub"></div>
+            </div>
+            <button class="btn secondary-btn close-btn" id="preview-close">Close ✖</button>
+        </div>
+        <div class="preview-pages" id="preview-pages"></div>
+    </div>
+</div>
+</body>
+</html>

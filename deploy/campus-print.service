@@ -1,0 +1,17 @@
+# Linux systemd service. Copy to /etc/systemd/system/campus-print.service, then:
+#   sudo systemctl daemon-reload && sudo systemctl enable --now campus-print
+# Change User and the two paths to match your server.
+[Unit]
+Description=Campus Print server
+After=network.target
+
+[Service]
+User=campus
+WorkingDirectory=/opt/CampusPrint/backend
+# .env is read by the app itself (python-dotenv). ONE worker is required.
+ExecStart=/opt/CampusPrint/backend/venv/bin/gunicorn -w 1 --threads 100 -b 127.0.0.1:5000 app:app
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

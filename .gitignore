@@ -1,0 +1,11 @@
+.env
+*.db
+*.db-wal
+*.db-shm
+data/
+uploads/
+agent_state.json
+agent.log*
+__pycache__/
+*.pyc
+SumatraPDF.exe

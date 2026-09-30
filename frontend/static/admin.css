@@ -1,0 +1,40 @@
+/* Admin pages: builds on style.css (same colour variables) */
+.login-wrap { max-width: 400px; padding-top: 60px; }
+.admin-container { max-width: 1000px; margin: 0 auto; padding: 24px 16px 60px; }
+.admin-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+.admin-head h1 { margin: 0 0 8px; color: var(--accent); font-size: 1.6rem; }
+.pill.role { margin-left: 6px; }
+.admin-block { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 18px; }
+.admin-block h2 { margin: 0 0 12px; font-size: 1.1rem; }
+.block-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.block-head h2 { margin: 0; margin-right: auto; }
+.month-pick { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 0.9rem; }
+.month-pick input { width: auto; margin: 0; }
+.small-btn { width: auto; padding: 8px 14px; font-size: 0.85rem; }
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.stat { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 14px; text-align: center; }
+.stat span { display: block; font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+.stat label { color: var(--muted); font-size: 0.8rem; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; white-space: nowrap; }
+td.file { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+td .sub { color: var(--muted); font-size: 0.78rem; }
+td.empty { text-align: center; color: var(--muted); padding: 18px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; background: var(--line); color: var(--muted); }
+.badge.done { background: rgba(74, 222, 128, 0.15); color: var(--good); }
+.badge.failed { background: rgba(248, 113, 113, 0.15); color: var(--bad); }
+.badge.printing, .badge.sent, .badge.queued { background: rgba(251, 191, 36, 0.15); color: var(--warn); }
+.badge.refunded { background: rgba(56, 189, 248, 0.15); color: var(--accent); }
+.row-actions { display: flex; gap: 6px; white-space: nowrap; }
+.row-actions .btn { padding: 6px 12px; font-size: 0.8rem; width: auto; }
+.btn.danger { background: var(--bad); color: #0f172a; }
+.admin-form { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.admin-form input { flex: 1; min-width: 150px; margin: 0; }
+@media (max-width: 600px) { .stat-row { grid-template-columns: 1fr; } }
+input[type="month"] {
+    padding: 8px 10px; border-radius: 8px; font-size: 0.9rem;
+    background: var(--bg); color: var(--text); border: 1px solid var(--line); color-scheme: dark;
+}
+.btn.small-btn { flex: none; }
