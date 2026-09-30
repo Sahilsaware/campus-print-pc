@@ -1,4 +1,0 @@
-requests
-websocket-client
-pywin32
-python-dotenv
